@@ -1,0 +1,759 @@
+<title>Essence by M&C</title>
+<style>
+  /* Layout: una sola columna de scroll vertical — portada, historia, vitrina de colección,
+     razones y contacto. Sin navegación ni filtros: simplicidad deliberada. */
+  :root{
+    --bg: #fbf1ec;
+    --bg-alt: #f3ddd3;
+    --surface: #ffffff;
+    --fg: #3a2422;
+    --muted: #8a6a63;
+    --heading: #7d4448;
+    --accent: #c9a467;
+    --border: rgba(125,68,72,0.16);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #15120f;
+      --bg-alt: #1c1713;
+      --surface: #201b17;
+      --fg: #ece4d6;
+      --muted: #b3a897;
+      --heading: #d9a79e;
+      --accent: #c9a467;
+      --border: rgba(236,228,214,0.14);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #15120f;
+    --bg-alt: #1c1713;
+    --surface: #201b17;
+    --fg: #ece4d6;
+    --muted: #b3a897;
+    --heading: #d9a79e;
+    --accent: #c9a467;
+    --border: rgba(236,228,214,0.14);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: auto; }
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  h1, h2, h3 {
+    font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    font-weight: 500;
+    margin: 0;
+    text-wrap: balance;
+  }
+  p { margin: 0; line-height: 1.65; }
+  img, svg { max-width: 100%; }
+
+  .wrap{
+    max-width: 880px;
+    margin: 0 auto;
+    padding-inline: clamp(20px, 5vw, 48px);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:
+      radial-gradient(ellipse at 18% 15%, rgba(201,164,103,.14), transparent 55%),
+      radial-gradient(ellipse at 82% 80%, rgba(125,68,72,.10), transparent 55%),
+      var(--bg);
+    padding-block: clamp(64px, 12vh, 110px) clamp(56px, 10vh, 90px);
+    text-align: center;
+  }
+  .eyebrow{
+    font-size: .76rem;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 22px;
+  }
+  .lockup-line{
+    font-style: italic;
+    font-size: clamp(2.4rem, 8vw, 4.2rem);
+    color: var(--heading);
+    line-height: 1.05;
+  }
+  .bottle{
+    display: block;
+    width: clamp(64px, 11vw, 92px);
+    height: auto;
+    margin: clamp(10px, 2vh, 18px) auto;
+  }
+  .bottle path, .bottle line{
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 5;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .tagline{
+    max-width: 440px;
+    margin: 26px auto 0;
+    color: var(--fg);
+    font-size: 1.02rem;
+    font-weight: 300;
+  }
+  .hero-cta{
+    margin-top: 36px;
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn{
+    display: inline-block;
+    padding: 13px 28px;
+    font-size: .78rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    text-decoration: none;
+    border: 1px solid var(--heading);
+    color: var(--heading);
+    transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+  }
+  .btn:hover{ transform: translateY(-2px); }
+  .btn-solid{ background: var(--heading); color: var(--bg); }
+  .btn-solid:hover{ background: var(--accent); border-color: var(--accent); color: #241a16; }
+  .btn-ghost:hover{ background: var(--heading); color: var(--bg); }
+
+  /* ---------- Secciones generales ---------- */
+  section{ padding-block: clamp(56px, 9vh, 96px); }
+  .section-head{
+    max-width: 560px;
+    margin: 0 auto 40px;
+    text-align: center;
+  }
+  .section-eyebrow{
+    font-size: .72rem;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .section-head h2{
+    font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+    font-style: italic;
+    color: var(--heading);
+  }
+
+  /* ---------- Historia ---------- */
+  .historia{ background: var(--bg-alt); }
+  .historia p{
+    max-width: 620px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 300;
+  }
+  .firma{
+    margin-top: 28px;
+    text-align: center;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--heading);
+  }
+
+  /* ---------- Colección ---------- */
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  .card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 22px 20px;
+    min-width: 0;
+    transition: border-color 180ms ease, transform 180ms ease;
+  }
+  .card:hover{ border-color: var(--accent); transform: translateY(-3px); }
+  .card-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .card-marca{
+    font-size: .66rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .pill{
+    font-size: .62rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .pill.noche{ background: var(--heading); border-color: var(--heading); color: var(--bg); }
+  .card h3{
+    font-size: 1.25rem;
+    font-style: italic;
+    margin-bottom: 10px;
+    color: var(--fg);
+  }
+  .meta-line{
+    font-size: .78rem;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .tags{ display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag{
+    font-size: .65rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--bg-alt);
+    color: var(--heading);
+  }
+
+  /* ---------- Razones ---------- */
+  .razones{ background: var(--bg-alt); }
+  .razones-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 28px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .razon{ text-align: center; }
+  .razon .num{
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .razon h3{
+    font-size: 1.1rem;
+    font-style: normal;
+    font-family: 'Jost', sans-serif;
+    letter-spacing: .02em;
+    margin-bottom: 8px;
+    color: var(--fg);
+  }
+  .razon p{
+    font-size: .92rem;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  /* ---------- Contacto ---------- */
+  .contacto{ text-align: center; }
+  .contacto p.intro{
+    max-width: 480px;
+    margin: 0 auto 32px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+  .contact-row{
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    padding-block: 28px;
+    text-align: center;
+    font-size: .72rem;
+    letter-spacing: .05em;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 480px){
+    .hero-cta, .contact-row{ flex-direction: column; align-items: center; }
+    .btn{ width: 100%; max-width: 260px; text-align: center; }
+  }
+
+  /* ---------- Proyecto IA (Teachable Machine) ---------- */
+  .proyecto-ia{ background: var(--bg-alt); }
+  .proyecto-ia.proyecto-ia-alt{ background: var(--surface); }
+  .ia-intro{
+    max-width: 560px;
+    margin: 0 auto 36px;
+    text-align: center;
+    color: var(--muted);
+    font-weight: 300;
+  }
+  .ia-panel{
+    max-width: 420px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  #ia-webcam-container{
+    width: 100%;
+    max-width: 260px;
+    aspect-ratio: 1 / 1;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #ia-webcam-container canvas{ display: block; max-width: 100%; height: auto; }
+  #ia-webcam-container .ia-placeholder{
+    font-size: .78rem;
+    color: var(--muted);
+    text-align: center;
+    padding: 0 20px;
+  }
+  .ia-status{
+    font-size: .76rem;
+    letter-spacing: .04em;
+    color: var(--muted);
+    min-height: 1.2em;
+    text-align: center;
+  }
+  .ia-status.ia-error{ color: var(--heading); }
+  #ia-label-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ia-row{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .ia-row-top{
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: .8rem;
+  }
+  .ia-row-name{ color: var(--fg); min-width: 0; overflow-wrap: anywhere; }
+  .ia-row-pct{
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+  .ia-bar-track{
+    height: 6px;
+    border-radius: 999px;
+    background: var(--border);
+    overflow: hidden;
+  }
+  .ia-bar-fill{
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 160ms ease;
+  }
+  .ia-recomendacion{
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+    margin-top: 2px;
+    display: none;
+  }
+  .ia-recomendacion.visible{ display: block; }
+  .ia-recomendacion p{
+    font-size: .78rem;
+    color: var(--muted);
+    margin: 0 0 10px;
+  }
+  .ia-recomendacion strong{ color: var(--heading); }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">María Fernanda &amp; Carlos</p>
+      <div class="lockup-line">Essence</div>
+      <svg class="bottle" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <polyline points="82,10 118,10 128,23.6 120,44 80,44 72,23.6 82,10" />
+        <line x1="100" y1="10" x2="100" y2="44" />
+        <line x1="72" y1="23.6" x2="80" y2="44" />
+        <line x1="128" y1="23.6" x2="120" y2="44" />
+        <line x1="89" y1="44" x2="89" y2="62" />
+        <line x1="111" y1="44" x2="111" y2="62" />
+        <path d="M 84 72 L 156 72 A 40 40 0 0 1 196 112 L 196 238 A 16 16 0 0 1 180 254 L 64 254 A 16 16 0 0 1 48 238 L 48 112 A 40 40 0 0 1 84 72 Z" transform="translate(-44,0)" />
+        <line x1="62" y1="209" x2="138" y2="209" />
+      </svg>
+      <div class="lockup-line">by M&amp;C</div>
+      <p class="tagline">Fragancias para cada versión de ti — el día y la noche.</p>
+      <div class="hero-cta">
+        <a href="#historia" class="btn btn-ghost">Nuestra historia</a>
+        <a href="#contacto" class="btn btn-solid">Contáctanos</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="historia" id="historia">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="section-eyebrow">Quiénes somos</p>
+        <h2>Una idea compartida</h2>
+      </div>
+      <p>
+        Essence by M&amp;C nació de una idea entre María Fernanda y Carlos: reunir en un
+        solo lugar una selección de fragancias para quienes buscan algo distinto para
+        cada momento del día. Cada ficha del catálogo indica su tipo, su contenido y su
+        familia olfativa, para que la decisión sea siempre informada.
+      </p>
+      <p class="firma">— María Fernanda &amp; Carlos</p>
+    </div>
+  </section>
+
+  <section class="coleccion">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="section-eyebrow">Vitrina</p>
+        <h2>Algunas de nuestras fragancias</h2>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="card-top">
+            <span class="card-marca">Dior</span>
+            <span class="pill">Día</span>
+          </div>
+          <h3>Sauvage</h3>
+          <p class="meta-line">Eau de Parfum</p>
+          <div class="tags">
+            <span class="tag">Fresco</span><span class="tag">Amaderado</span><span class="tag">Especiado</span>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-top">
+            <span class="card-marca">Carolina Herrera</span>
+            <span class="pill noche">Noche</span>
+          </div>
+          <h3>Good Girl</h3>
+          <p class="meta-line">Eau de Parfum · 80 ml</p>
+          <div class="tags">
+            <span class="tag">Amaderado</span><span class="tag">Dulce</span><span class="tag">Almendra</span>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-top">
+            <span class="card-marca">Lancôme</span>
+            <span class="pill">Día</span>
+          </div>
+          <h3>La Vie Est Belle</h3>
+          <p class="meta-line">Eau de Parfum · 100 ml</p>
+          <div class="tags">
+            <span class="tag">Dulce</span><span class="tag">Floral</span><span class="tag">Gourmand</span>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-top">
+            <span class="card-marca">Jean Paul Gaultier</span>
+            <span class="pill">Día</span>
+          </div>
+          <h3>Le Male</h3>
+          <p class="meta-line">Eau de Toilette</p>
+          <div class="tags">
+            <span class="tag">Aromático</span><span class="tag">Fougère</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="razones">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="section-eyebrow">Por qué elegirnos</p>
+        <h2>Lo que nos distingue</h2>
+      </div>
+      <div class="razones-grid">
+        <div class="razon">
+          <span class="num">I</span>
+          <h3>Catálogo variado</h3>
+          <p>Más de 60 fragancias, femeninas y masculinas, de marcas reconocidas y alternativas.</p>
+        </div>
+        <div class="razon">
+          <span class="num">II</span>
+          <h3>Detalle por producto</h3>
+          <p>Cada ficha indica su tipo, contenido y familia olfativa antes de decidir.</p>
+        </div>
+        <div class="razon">
+          <span class="num">III</span>
+          <h3>Día y noche</h3>
+          <p>Una selección organizada según el momento en que se usa cada fragancia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proyecto-ia" id="proyecto-ia-clima">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="section-eyebrow">Proyecto académico</p>
+        <h2>Clasificador de momento del día con IA</h2>
+      </div>
+      <p class="ia-intro">
+        Modelo entrenado con Teachable Machine que identifica, a partir de la cámara,
+        si la escena corresponde a un día, una noche, o un día frío / nevado — y te
+        recomienda lociones acordes. Actívalo y muéstrale una imagen a la cámara.
+      </p>
+      <div class="ia-panel">
+        <div id="ia-webcam-container-clima">
+          <p class="ia-placeholder">La cámara aparecerá aquí al iniciar</p>
+        </div>
+        <button id="ia-start-btn-clima" class="btn btn-solid" type="button">Iniciar cámara</button>
+        <p id="ia-status-clima" class="ia-status"></p>
+        <div id="ia-label-container-clima"></div>
+        <div id="ia-recomendacion-clima" class="ia-recomendacion">
+          <p id="ia-recomendacion-texto-clima"></p>
+          <a href="#coleccion" class="btn btn-ghost">Ver colección</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proyecto-ia proyecto-ia-alt" id="proyecto-ia-genero">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="section-eyebrow">Proyecto académico</p>
+        <h2>Clasificador de género con IA</h2>
+      </div>
+      <p class="ia-intro">
+        Modelo entrenado con Teachable Machine que identifica, a partir de la cámara,
+        si la persona corresponde a hombre o mujer — y te recomienda lociones
+        de esa categoría. Actívalo y muéstrate a la cámara.
+      </p>
+      <div class="ia-panel">
+        <div id="ia-webcam-container-genero">
+          <p class="ia-placeholder">La cámara aparecerá aquí al iniciar</p>
+        </div>
+        <button id="ia-start-btn-genero" class="btn btn-solid" type="button">Iniciar cámara</button>
+        <p id="ia-status-genero" class="ia-status"></p>
+        <div id="ia-label-container-genero"></div>
+        <div id="ia-recomendacion-genero" class="ia-recomendacion">
+          <p id="ia-recomendacion-texto-genero"></p>
+          <a href="#coleccion" class="btn btn-ghost">Ver colección</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proyecto-ia" id="proyecto-ia-poses">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="section-eyebrow">Proyecto académico</p>
+        <h2>Clasificador de poses con IA</h2>
+      </div>
+      <p class="ia-intro">
+        Modelo entrenado con Teachable Machine que reconoce dos poses frente a la
+        cámara: "Tenedor" y "Pose en T". Actívalo y haz una de las dos poses.
+      </p>
+      <div class="ia-panel">
+        <div id="ia-webcam-container-poses">
+          <p class="ia-placeholder">La cámara aparecerá aquí al iniciar</p>
+        </div>
+        <button id="ia-start-btn-poses" class="btn btn-solid" type="button">Iniciar cámara</button>
+        <p id="ia-status-poses" class="ia-status"></p>
+        <div id="ia-label-container-poses"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contacto" id="contacto">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="section-eyebrow">Escríbenos</p>
+        <h2>¿Lista la elección?</h2>
+      </div>
+      <p class="intro">Coordinamos tu pedido por WhatsApp o Instagram.</p>
+      <div class="contact-row">
+        <a href="https://wa.me/573000000000" target="_blank" rel="noopener" class="btn btn-solid">WhatsApp</a>
+        <a href="https://instagram.com/essencebymc" target="_blank" rel="noopener" class="btn btn-ghost">Instagram</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Essence by M&amp;C — María Fernanda &amp; Carlos</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.4.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.4/dist/teachablemachine-image.min.js"></script>
+<script>
+// Crea un clasificador independiente para una sección de la página.
+// prefix: sufijo de los IDs de esa sección (ej. "clima", "genero").
+// modelId: el id del modelo de Teachable Machine (parte final de su URL "Upload my model").
+// recomendaciones: mapa { "NombreClaseExacto": "texto de recomendación" }.
+function initClassifier({ prefix, modelId, recomendaciones = {} }) {
+  const MODEL_URL = `https://teachablemachine.withgoogle.com/models/${modelId}/`;
+
+  const startBtn = document.getElementById(`ia-start-btn-${prefix}`);
+  const webcamContainer = document.getElementById(`ia-webcam-container-${prefix}`);
+  const labelContainer = document.getElementById(`ia-label-container-${prefix}`);
+  const statusEl = document.getElementById(`ia-status-${prefix}`);
+  const recoBox = document.getElementById(`ia-recomendacion-${prefix}`);
+  const recoTexto = document.getElementById(`ia-recomendacion-texto-${prefix}`);
+
+  if (!startBtn) return; // la sección no existe en esta página
+
+  let model, webcam, rafId;
+  let running = false;
+
+  function setStatus(text, isError) {
+    statusEl.textContent = text || "";
+    statusEl.classList.toggle("ia-error", !!isError);
+  }
+
+  function ensureLabelRows(predictions) {
+    if (labelContainer.children.length > 0) return;
+    predictions.forEach((p, i) => {
+      const row = document.createElement("div");
+      row.className = "ia-row";
+      row.innerHTML = `
+        <div class="ia-row-top">
+          <span class="ia-row-name">${p.className}</span>
+          <span class="ia-row-pct" data-pct="${i}">0%</span>
+        </div>
+        <div class="ia-bar-track">
+          <div class="ia-bar-fill" data-bar="${i}"></div>
+        </div>
+      `;
+      labelContainer.appendChild(row);
+    });
+  }
+
+  async function startClassifier() {
+    if (running) return;
+    startBtn.disabled = true;
+    setStatus("Cargando modelo…");
+
+    try {
+      const modelURL = MODEL_URL + "model.json";
+      const metadataURL = MODEL_URL + "metadata.json";
+      model = await tmImage.load(modelURL, metadataURL);
+      labelContainer.innerHTML = "";
+    } catch (err) {
+      setStatus("No se pudo cargar el modelo. Verifica tu conexión a internet e inténtalo de nuevo.", true);
+      startBtn.disabled = false;
+      return;
+    }
+
+    try {
+      setStatus("Solicitando acceso a la cámara…");
+      const flip = true;
+      webcam = new tmImage.Webcam(220, 220, flip);
+      await webcam.setup();
+      await webcam.play();
+      webcamContainer.innerHTML = "";
+      webcamContainer.appendChild(webcam.canvas);
+      running = true;
+      setStatus("");
+      startBtn.textContent = "Detener cámara";
+      startBtn.disabled = false;
+      rafId = window.requestAnimationFrame(loop);
+    } catch (err) {
+      setStatus("La cámara no está disponible en esta vista previa. Sube estos archivos a tu repositorio y ábrelos desde GitHub Pages para probarla.", true);
+      startBtn.disabled = false;
+    }
+  }
+
+  async function loop() {
+    if (!running) return;
+    webcam.update();
+    await predict();
+    rafId = window.requestAnimationFrame(loop);
+  }
+
+  async function predict() {
+    const prediction = await model.predict(webcam.canvas);
+    ensureLabelRows(prediction);
+
+    let top = prediction[0];
+    prediction.forEach((p, i) => {
+      const pctEl = labelContainer.querySelector(`[data-pct="${i}"]`);
+      const barEl = labelContainer.querySelector(`[data-bar="${i}"]`);
+      const pct = Math.round(p.probability * 100);
+      if (pctEl) pctEl.textContent = pct + "%";
+      if (barEl) barEl.style.width = pct + "%";
+      if (p.probability > top.probability) top = p;
+    });
+
+    if (recoBox && recoTexto) {
+      if (top.probability >= 0.6 && recomendaciones[top.className]) {
+        recoTexto.textContent = recomendaciones[top.className];
+        recoBox.classList.add("visible");
+      } else {
+        recoBox.classList.remove("visible");
+      }
+    }
+  }
+
+  function stopClassifier() {
+    running = false;
+    if (rafId) cancelAnimationFrame(rafId);
+    if (webcam) webcam.stop();
+    webcamContainer.innerHTML = '<p class="ia-placeholder">La cámara aparecerá aquí al iniciar</p>';
+    startBtn.textContent = "Iniciar cámara";
+    if (recoBox) recoBox.classList.remove("visible");
+    setStatus("");
+  }
+
+  startBtn.addEventListener("click", () => {
+    if (running) {
+      stopClassifier();
+    } else {
+      startClassifier();
+    }
+  });
+}
+
+initClassifier({
+  prefix: "clima",
+  modelId: "OqwCKJdhH",
+  recomendaciones: {
+    "Dia": "Detectamos un ambiente de día: te recomendamos nuestras lociones frescas y cítricas para uso diurno.",
+    "Dia frio / Nevado": "Detectamos un día frío o nevado: te recomendamos fragancias amaderadas y cálidas, ideales para climas fríos.",
+    "Noche": "Detectamos una escena nocturna: te recomendamos nuestras lociones intensas y envolventes para la noche."
+  }
+});
+
+initClassifier({
+  prefix: "genero",
+  modelId: "htAmmbiF0",
+  recomendaciones: {
+    "mujer": "Detectamos una persona: te recomendamos nuestra línea femenina — elegante y versátil.",
+    "hombre": "Detectamos una persona: te recomendamos nuestra línea masculina — con carácter y distinción."
+  }
+});
+
+initClassifier({
+  prefix: "poses",
+  modelId: "laYLq1jIN"
+  // Sin recomendaciones: esta sección solo detecta y muestra la pose, sin relación con el catálogo.
+});
+</script>
